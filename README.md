@@ -53,4 +53,4 @@ It will check that response is a valid JSON object and top-level object contains
   "grp": "tester"
 ```
 
-If some keys haven't been found or values doen't match with expectation - will fail.
+If some keys haven't been found or values don't match with expectation - authentication will fail.
