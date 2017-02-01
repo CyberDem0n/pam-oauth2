@@ -38,20 +38,21 @@ static size_t writefunc(void *ptr, size_t size, size_t nmemb, struct response *r
 }
 
 static int skip_object(const jsmntok_t *t, const int count) {
-    if (count <= 0) return 0; // should not happen
+    int i;
+    if (count <= 0) return 0; /* should not happen */
 
     if (t->type == JSMN_PRIMITIVE || t->type == JSMN_STRING) {
         return 1;
     } else if (t->type == JSMN_OBJECT) {
         int ret = 1;
-        for (int i = 0; i < t->size; ++i) {
+        for (i = 0; i < t->size; ++i) {
             ret += skip_object(t + ret, count - ret);
             ret += skip_object(t + ret, count - ret);
         }
         return ret;
     } else if (t->type == JSMN_ARRAY) {
         int ret = 1;
-        for (int i = 0; i < t->size; ++i)
+        for (i = 0; i < t->size; ++i)
             ret += skip_object(t + ret, count - ret);
         return ret;
     } else return 0;
@@ -79,7 +80,7 @@ static int check_response(const struct response token_info, struct check_tokens 
     while (r > 0) {
         if (t[i].type == JSMN_STRING) {
             --r;
-            // try to find "interesting" keys in the top-level element object
+            /* try to find "interesting" keys in the top-level element object */
             for (cti = ct; cti->key != NULL; ++cti) {
                 if (cti->key_len == t[i].end - t[i].start &&
                         strncmp(response_data + t[i].start, cti->key, cti->key_len) == 0) {
@@ -97,8 +98,8 @@ static int check_response(const struct response token_info, struct check_tokens 
                 }
             }
 
-            // skip value, because key was not interesting for us
-            if (cti == NULL) {
+            /* skip value, because key was not interesting for us */
+            if (cti->key == NULL) {
                 int skipped = skip_object(t + ++i, r);
                 r -= skipped; i += skipped;
             }
@@ -115,7 +116,7 @@ static int check_response(const struct response token_info, struct check_tokens 
         if (cti->match == 0) {
             syslog(LOG_AUTH|LOG_DEBUG, "pam_oauth2: can't find '%.*s' field in the tokeninfo JSON response object",
                 cti->key_len, cti->key);
-            if (cti == ct) {  // login token field always come first
+            if (cti == ct) {  /* login token field always come first */
                 r = PAM_USER_UNKNOWN;
             } else if (r != PAM_USER_UNKNOWN) {
                 r = PAM_AUTH_ERR;
@@ -192,7 +193,7 @@ static int oauth2_authenticate(const char * const tokeninfo_url, const char * co
 PAM_EXTERN int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, const char **argv) {
     const char *tokeninfo_url = NULL, *authtok = NULL;
     struct check_tokens ct[argc];
-    int ct_len = 1;
+    int i, ct_len = 1;
     ct->key = ct->value = NULL;
 
     if (argc > 0) tokeninfo_url = argv[0];
@@ -222,7 +223,7 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, cons
     ct->value_len = strlen(ct->value);
     ct->match = 0;
 
-    for (int i = 2; i < argc; ++i) {
+    for (i = 2; i < argc; ++i) {
         const char *value = strchr(argv[i], '=');
         if (value != NULL) {
             ct[ct_len].key = argv[i];

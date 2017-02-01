@@ -1,6 +1,6 @@
 CC=gcc
 
-CFLAGS=-Wall -fPIC
+CFLAGS=-Wall -fPIC -ansi -pedantic
 DEST=/lib/security
 
 all: pam_oauth2.so
