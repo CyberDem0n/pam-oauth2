@@ -1,0 +1,6 @@
+# vi(m) swap files:
+*.sw?
+
+# C extensions
+*.so
+*.o
