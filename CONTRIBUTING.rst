@@ -7,7 +7,7 @@ Reporting issues
 ----------------
 
 If you have a question about Oauth2 PAM module, or have a problem using it, please read the `README.md <README.md>`__ before filing an issue.
-Also double-check with the current issues on our `Issues Tracker <https://github.com/zalando-incubator/pam-oauth2/issues>`__.
+Also double-check with the current issues on our `Issues Tracker <https://github.com/CyberDem0n/pam-oauth2/issues>`__.
 
 Contributing a pull request
 ---------------------------
