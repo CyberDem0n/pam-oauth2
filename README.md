@@ -17,7 +17,7 @@ $ sudo make install
 
 ```
 auth sufficient pam_oauth2.so <tokeninfo url> <login field> key1=value2 key2=value2
-account sufficient pam_oauth2.so
+account sufficient pam_oauth2.so <tokeninfo url> <login field> key1=value2 key2=value2
 ```
 
 ## How it works
