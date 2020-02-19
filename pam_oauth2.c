@@ -154,7 +154,7 @@ static int query_token_info(const char * const tokeninfo_url, const char * const
         } else {
             syslog(LOG_AUTH|LOG_DEBUG, "pam_oauth2: failed to perform curl request");
         }
- 
+
         free(url);
     } else {
         syslog(LOG_AUTH|LOG_DEBUG, "pam_oauth2: memory allocation failed");

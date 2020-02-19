@@ -16,10 +16,7 @@ PAM_DIR=$(LIBDIR)/security
 
 all: pam_oauth2.so
 
-jsmn/libjsmn.a:
-	$(MAKE) CFLAGS="$(CFLAGS)" -C jsmn
-
-pam_oauth2.so: pam_oauth2.o jsmn/libjsmn.a
+pam_oauth2.so: pam_oauth2.o
 	$(CC) -shared $^ -lcurl -o $@
 
 install: pam_oauth2.so
